@@ -17,30 +17,57 @@ public class BahnhoefeModel {
 		this.banhof = banhof;
 	}
 	public void schreibeBahnhoefeInCsvDatei() throws IOException{
-			Bahnhof bahnhof = getBanhof();
 			BufferedWriter aus = new BufferedWriter(new FileWriter("BahnhoefeAusgabe.csv", true));
-			aus.write(bahnhof.gibBahnhofZurueck(';'));
+			aus.write(this.getBanhof().gibBahnhofZurueck(';'));
 			aus.close();
 			}
-	
-	public void schreibeBahnhoefeInTxtDatei() throws IOException{
-		Bahnhof bahnhof = getBanhof();
-		BufferedWriter aus = new BufferedWriter(new FileWriter("BahnhoefeAusgabe.csv", true));
-		aus.write(bahnhof.gibBahnhofZurueck(';'));
-		aus.newLine();
-		aus.newLine();
-		aus.close();
+	public void leseBahnhoefeAusCsvDatei() throws IOException{
+		String zeile;
+		try(BufferedReader ein = new BufferedReader(new FileReader("Bahnhof.csv"));) {
+		zeile = ein.readLine();}
+		if(zeile == null) {
+			throw new IOException("Die Datei ist leer.");
 		}
-	public void leseBahnhoefeInCsvDatei() throws IOException{
-		BufferedReader ein = new BufferedReader(new FileReader("Bahnhof.csv"));
-		String[] zeile = ein.readLine().split(";");
-		Bahnhof bahnhof = new Bahnhof(zeile[0], 
-				zeile[1], 
-				Integer.parseInt(zeile[2]), 
-				Integer.parseInt(zeile[3]), 
-				zeile[4].split("_"));
-		ein.close();
+		String[] daten = zeile.split(";", -1);
+		if (daten.length != 5) {
+	        throw new IOException("Die Zeile muss fünf Felder enthalten.");
+	    }
+		
+		Bahnhof bahnhof = new Bahnhof(daten[0], 
+				daten[1], 
+				Integer.parseInt(daten[2]), 
+				Integer.parseInt(daten[3]), 
+				daten[4].split("_"));
+		this.setBanhof(bahnhof);
 		}
+	public void leseBahnhoefeAusTxtDatei() throws IOException {
+	    String zeile;
+
+	    try (BufferedReader ein = new BufferedReader(
+	            new FileReader("Bahnhof.txt"))) {
+	        zeile = ein.readLine();
+	    }
+
+	    if (zeile == null) {
+	        throw new IOException("Die Datei ist leer.");
+	    }
+
+	    String[] daten = zeile.split(";", -1);
+
+	    if (daten.length != 5) {
+	        throw new IOException("Die Zeile muss fünf Felder enthalten.");
+	    }
+
+	    Bahnhof bahnhof = new Bahnhof(
+	        daten[0],
+	        daten[1],
+	        Integer.parseInt(daten[2].trim()),
+	        Integer.parseInt(daten[3].trim()),
+	        daten[4].split("_")
+	    );
+
+	    this.setBanhof(bahnhof);
+	}
 		
 	
 }
