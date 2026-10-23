@@ -1,8 +1,4 @@
 package gui;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import business.BahnhoefeModel;
@@ -43,10 +39,16 @@ public class BahnhoefeControl {
     }
     
     
-    private void leseAusDatei(String typ){
+    public void leseAusDatei(String typ){
     	try {
       		if("csv".equals(typ)){
-      			model.leseBahnhoefeInCsvDatei();
+      			model.leseBahnhoefeAusCsvDatei();
+      			zeigeBahnhoefeAn();
+      			view.zeigeInformationsfensterAn("CSV-Datei erfolgreich eingelesen!");
+      		}else if("txt".equals(typ)){
+      			model.leseBahnhoefeAusTxtDatei();
+      			zeigeBahnhoefeAn();
+      			view.zeigeInformationsfensterAn("TXT-Datei erfolgreich eingelesen!");
       		}
        		else{
 	   			view.zeigeInformationsfensterAn(
@@ -62,4 +64,18 @@ public class BahnhoefeControl {
 				"Unbekannter Fehler beim Lesen!");
 		}
 	}
+    public void schreibeInDatei(String typ) {
+    	try {
+    		if("csv".equals(typ)) {
+    			model.schreibeBahnhoefeInCsvDatei();
+    			view.zeigeInformationsfensterAn("CSV-Datei erfolgreich gespeichert!");
+    		}else{
+    			view.zeigeInformationsfensterAn("Noch nicht implementiert!");
+    		}
+    	}catch(IOException exc) {
+    		view.zeigeFehlermeldungsfensterAn("IOException beim Speichern!");
+    	}catch(Exception e) {
+    		view.zeigeFehlermeldungsfensterAn("Unbekannter Fehler beim Speichern!");
+    	}
+    }
 }
