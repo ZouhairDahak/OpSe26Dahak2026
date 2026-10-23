@@ -1,12 +1,12 @@
 package gui;
    
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import business.Bahnhof;
+//import java.io.BufferedReader;
+//import java.io.BufferedWriter;
+//import java.io.FileReader;
+//import java.io.FileWriter;
+//import java.io.IOException;
+//
+//import business.Bahnhof;
 import javafx.event.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -43,7 +43,7 @@ public class BahnhoefeView {
     //-------Ende Attribute der grafischen Oberflaeche-------
     
     // speichert temporaer ein Objekt vom Typ Bahnhof
-    private Bahnhof bahnhof;
+    //private Bahnhof bahnhof;
     private BahnhoefeControl control;
     
     public BahnhoefeView(Stage primaryStage, BahnhoefeControl control){
@@ -147,13 +147,13 @@ public class BahnhoefeView {
 	    mnItmTxtImport.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override
 		    public void handle(ActionEvent e) {
-		     	leseAusDatei("txt");
+		     	control.leseAusDatei("txt");
 		    }
     	});
 	    mnItmCsvExport.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent e) {
-				schreibeBahnhoefeInCsvDatei();
+				control.schreibeInDatei("csv");
 			}	
 	    });
     }
@@ -183,53 +183,53 @@ public class BahnhoefeView {
 //    	}
 //    }    
 		  
-    private void leseAusDatei(String typ){
-    	try {
-      		if("csv".equals(typ)){
-      			BufferedReader ein = new BufferedReader(new FileReader("Bahnhof.csv"));
-      			String[] zeile = ein.readLine().split(";");
-      			this.bahnhof = new Bahnhof(zeile[0], 
-      				zeile[1], 
-      				Integer.parseInt(zeile[2]), 
-      				Integer.parseInt(zeile[3]), 
-      				zeile[4].split("_"));
-      				ein.close();
-      	  			zeigeInformationsfensterAn(
-      	  	   			"Der Bahnhof wurde gelesen!");
-      		}
-       		else{
-	   			zeigeInformationsfensterAn(
-	   				"Noch nicht implementiert!");
-	   		}
-		}
-		catch(IOException exc){
-			zeigeFehlermeldungsfensterAn(
-				"IOException beim Lesen!");
-		}
-		catch(Exception exc){
-			zeigeFehlermeldungsfensterAn(
-				"Unbekannter Fehler beim Lesen!");
-		}
-	}
+//    private void leseAusDatei(String typ){
+//    	try {
+//      		if("csv".equals(typ)){
+//      			BufferedReader ein = new BufferedReader(new FileReader("Bahnhof.csv"));
+//      			String[] zeile = ein.readLine().split(";");
+//      			this.bahnhof = new Bahnhof(zeile[0], 
+//      				zeile[1], 
+//      				Integer.parseInt(zeile[2]), 
+//      				Integer.parseInt(zeile[3]), 
+//      				zeile[4].split("_"));
+//      				ein.close();
+//      	  			zeigeInformationsfensterAn(
+//      	  	   			"Der Bahnhof wurde gelesen!");
+//      		}
+//       		else{
+//	   			zeigeInformationsfensterAn(
+//	   				"Noch nicht implementiert!");
+//	   		}
+//		}
+//		catch(IOException exc){
+//			zeigeFehlermeldungsfensterAn(
+//				"IOException beim Lesen!");
+//		}
+//		catch(Exception exc){
+//			zeigeFehlermeldungsfensterAn(
+//				"Unbekannter Fehler beim Lesen!");
+//		}
+//	}
 		
-	private void schreibeBahnhoefeInCsvDatei() {
-		try {
-			BufferedWriter aus 
-				= new BufferedWriter(new FileWriter("BahnhoefeAusgabe.csv", true));
-			aus.write(bahnhof.gibBahnhofZurueck(';'));
-			aus.close();
-   			zeigeInformationsfensterAn(
-	   			"Die Bahnhoefe wurden gespeichert!");
-		}	
-		catch(IOException exc){
-			zeigeFehlermeldungsfensterAn(
-				"IOException beim Speichern!");
-		}
-		catch(Exception exc){
-			zeigeFehlermeldungsfensterAn(
-				"Unbekannter Fehler beim Speichern!");
-		}
-	}
+//	private void schreibeBahnhoefeInCsvDatei() {
+//		try {
+//			BufferedWriter aus 
+//				= new BufferedWriter(new FileWriter("BahnhoefeAusgabe.csv", true));
+//			aus.write(bahnhof.gibBahnhofZurueck(';'));
+//			aus.close();
+//   			zeigeInformationsfensterAn(
+//	   			"Die Bahnhoefe wurden gespeichert!");
+//		}	
+//		catch(IOException exc){
+//			zeigeFehlermeldungsfensterAn(
+//				"IOException beim Speichern!");
+//		}
+//		catch(Exception exc){
+//			zeigeFehlermeldungsfensterAn(
+//				"Unbekannter Fehler beim Speichern!");
+//		}
+//	}
 
     public void zeigeInformationsfensterAn(String meldung){
     	new MeldungsfensterAnzeiger(AlertType.INFORMATION,
