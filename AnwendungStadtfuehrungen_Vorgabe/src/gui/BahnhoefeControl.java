@@ -69,6 +69,9 @@ public class BahnhoefeControl {
     		if("csv".equals(typ)) {
     			model.schreibeBahnhoefeInCsvDatei();
     			view.zeigeInformationsfensterAn("CSV-Datei erfolgreich gespeichert!");
+    		}else if("txt".equals(typ)) {
+    			model.schreibeBahnhoefeInTxtDatei();
+    			view.zeigeInformationsfensterAn("TXT-Datei erfolgreich gespeichert!");
     		}else{
     			view.zeigeInformationsfensterAn("Noch nicht implementiert!");
     		}
