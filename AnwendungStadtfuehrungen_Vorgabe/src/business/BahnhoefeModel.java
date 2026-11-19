@@ -1,10 +1,12 @@
 package business;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import fileCreatorsDahak.CsvCreator;
+import fileCreatorsDahak.ReaderProductDahak;
+import fileCreatorsDahak.ReaderCreatorDahak;
+import fileCreatorsDahak.TxtCreator;
 
 public class BahnhoefeModel {
 	private Bahnhof banhof;
@@ -21,53 +23,53 @@ public class BahnhoefeModel {
 			aus.write(this.getBanhof().gibBahnhofZurueck(';'));
 			aus.close();
 			}
-	public void leseBahnhoefeAusCsvDatei() throws IOException{
-		String zeile;
-		try(BufferedReader ein = new BufferedReader(new FileReader("Bahnhof.csv"));) {
-		zeile = ein.readLine();}
-		if(zeile == null) {
-			throw new IOException("Die Datei ist leer.");
-		}
-		String[] daten = zeile.split(";", -1);
-		if (daten.length != 5) {
-	        throw new IOException("Die Zeile muss fünf Felder enthalten.");
-	    }
+	public void schreibeBahnhoefeInTxtDatei() throws IOException{
+		BufferedWriter aus = new BufferedWriter(new FileWriter("BahnhoefeAusgabe.txt", true));
+		aus.write(this.getBanhof().gibBahnhofZurueck(';'));
+		aus.close();
 		
-		Bahnhof bahnhof = new Bahnhof(daten[0], 
-				daten[1], 
-				Integer.parseInt(daten[2]), 
-				Integer.parseInt(daten[3]), 
-				daten[4].split("_"));
-		this.setBanhof(bahnhof);
+		}
+	public void leseBahnhoefeAusDatei(String typ) throws IOException{
+		ReaderCreatorDahak creator;
+		if("csv".equals(typ)) {
+			creator = new CsvCreator();
+		}else {
+			creator = new TxtCreator();
+		}
+		ReaderProductDahak reader = creator.factoryMethod();
+		try {
+			String[] daten = reader.leseAusDatei();
+			Bahnhof bahnhof = new Bahnhof(daten[0], 
+					daten[1], 
+					Integer.parseInt(daten[2]), 
+					Integer.parseInt(daten[3]), 
+					daten[4].split("_"));
+			this.setBanhof(bahnhof);
+			
+		}finally {
+			reader.schliesseDatei();
+		}
+		
 		}
 	public void leseBahnhoefeAusTxtDatei() throws IOException {
-	    String zeile;
-
-	    try (BufferedReader ein = new BufferedReader(
-	            new FileReader("Bahnhof.txt"))) {
-	        zeile = ein.readLine();
-	    }
-
-	    if (zeile == null) {
-	        throw new IOException("Die Datei ist leer.");
-	    }
-
-	    String[] daten = zeile.split(";", -1);
-
-	    if (daten.length != 5) {
-	        throw new IOException("Die Zeile muss fünf Felder enthalten.");
-	    }
-
-	    Bahnhof bahnhof = new Bahnhof(
-	        daten[0],
-	        daten[1],
-	        Integer.parseInt(daten[2].trim()),
-	        Integer.parseInt(daten[3].trim()),
-	        daten[4].split("_")
-	    );
-
-	    this.setBanhof(bahnhof);
-	}
+		ReaderCreatorDahak creator = new TxtCreator();
+		ReaderProductDahak reader = creator.factoryMethod();
+		try {
+			String[] daten = reader.leseAusDatei();
+			if (daten.length != 5) {
+		        throw new IOException("Die Zeile muss f�nf Felder enthalten.");
+		    }
+			
+			Bahnhof bahnhof = new Bahnhof(daten[0], 
+					daten[1], 
+					Integer.parseInt(daten[2]), 
+					Integer.parseInt(daten[3]), 
+					daten[4].split("_"));
+			this.setBanhof(bahnhof);
+			
+		}finally {
+			reader.schliesseDatei();
+		}
 		
 	
-}
+}}

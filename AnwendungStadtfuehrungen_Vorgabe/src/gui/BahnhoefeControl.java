@@ -41,19 +41,7 @@ public class BahnhoefeControl {
     
     public void leseAusDatei(String typ){
     	try {
-      		if("csv".equals(typ)){
-      			model.leseBahnhoefeAusCsvDatei();
-      			zeigeBahnhoefeAn();
-      			view.zeigeInformationsfensterAn("CSV-Datei erfolgreich eingelesen!");
-      		}else if("txt".equals(typ)){
-      			model.leseBahnhoefeAusTxtDatei();
-      			zeigeBahnhoefeAn();
-      			view.zeigeInformationsfensterAn("TXT-Datei erfolgreich eingelesen!");
-      		}
-       		else{
-	   			view.zeigeInformationsfensterAn(
-	   				"Noch nicht implementiert!");
-	   		}
+      		model.leseBahnhoefeAusDatei(typ);
 		}
 		catch(IOException exc){
 			view.zeigeFehlermeldungsfensterAn(
